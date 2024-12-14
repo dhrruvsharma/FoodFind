@@ -121,7 +121,11 @@ const Home = () => {
         const items = Array.from(container.children);
         const containerWidth = container.offsetWidth;
         let columnCount = Math.floor(containerWidth / 150);
-        columnCount = columnCount > 4 ? columnCount : 4;
+        if (columnCount > 6) {
+            columnCount = 6;
+        } else if (columnCount < 4) {
+            columnCount = 4;
+        }
         const columnWidth = (containerWidth - (gap * (columnCount - 1))) / columnCount;
         const columnHeights = Array(columnCount).fill(0);
         items?.forEach(item => {
