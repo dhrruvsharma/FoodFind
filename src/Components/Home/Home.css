@@ -1,0 +1,22 @@
+.masonry {
+    position: relative; 
+    width: 100%; 
+}
+#masonry-item{
+    figure{
+        width: 100%;
+        margin: 0;
+        img{
+            width: 100%;
+        }
+    }
+    max-width: 12vw;
+    padding: 1vw;   
+    text-wrap: wrap; 
+    background-color: whitesmoke;
+    cursor: pointer;
+    border-radius: 10px;
+}
+html,body,#root{
+    height: min-content;
+}
