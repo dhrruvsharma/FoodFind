@@ -41,3 +41,16 @@ export const Search = async (query,page,category) => {
         throw new Error(error);
     }
 }
+
+export const FetchDetails = async (id) => {
+    try{
+        const response = await axios.get(`${baseUrl}/product/${id}`,{
+            params: {
+                'fields': 'product_name,completeness,nutrient_levels,brands,categories_tags_en,image_url,labels,ingredients_text,countries_tags_en,nutrition_grades'
+            }
+        })
+        return response.data.product;
+    } catch(error) {
+        throw new Error(error);
+    }
+}

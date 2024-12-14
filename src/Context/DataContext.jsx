@@ -9,7 +9,7 @@ const DataProvider = ({children}) => {
     const [page,setPage] = useState(1);
     const [initial,setInitial] = useState(false);
     const [end,setEnd] = useState(false);
-    const [category,setCategory] = useState(null);
+    const [category,setCategory] = useState(undefined);
     const [query,setQuery] = useState("");
     return(
         <DataContext.Provider value={{data,setData,page,setPage,initial,setInitial,end,setEnd,category,setCategory,query,setQuery}}>

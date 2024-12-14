@@ -90,7 +90,7 @@ const Home = () => {
 
     useEffect(() => {
         const savedCategory = sessionStorage.getItem?.("category");
-        if (initial && category !== savedCategory) {
+        if (initial && category !== savedCategory && category !== undefined) {
             setData([]);
             setPage(1);
             setEnd(false);

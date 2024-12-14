@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css"
-import { useDataContext } from "../../Context/DataContext";
 const Card = React.memo(({image,name,onLoad,onError,id }) => {
     const navigate = useNavigate();
     const HandleClick = () => {

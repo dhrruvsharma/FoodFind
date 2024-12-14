@@ -16,6 +16,10 @@
     background-color: whitesmoke;
     cursor: pointer;
     border-radius: 10px;
+    transition: filter .5s ease-in-out;
+}
+#masonry-item:hover{
+    filter: invert(10%);
 }
 html,body,#root{
     height: min-content;
