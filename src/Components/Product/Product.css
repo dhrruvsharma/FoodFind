@@ -11,10 +11,10 @@
     opacity: 1;
     display: grid;
     grid-template-areas: 
-    "art title"
-    "art brand"
-    "art labels"
-    "art category";
+    "art title title title title title title"
+    "art brand brand brand brand brand brand"
+    "art labels labels labels labels labels labels"
+    "art category category category category category category";
     grid-gap: 2vw;
     height: min-content;
     margin-top: -15vw;
@@ -26,8 +26,8 @@
 .product .product-figure img{
     grid-area: art;
     border-radius: 10px;
-    height: 100%;
-    width: 100%;
+    /* width: 100%; */
+    max-height: 70vh;
 }
 .title{
     grid-area: title;
