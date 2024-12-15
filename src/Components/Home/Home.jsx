@@ -105,6 +105,9 @@ const Home = () => {
             return () => clearTimeout(Timer);
         } else if (query !== "" && page === 1 && query !== savedQuery) {
             const Timer = setTimeout(() => {
+                ResetHeight();
+                setEnd(false);
+                setData([]);
                 SearchQuery();
             },1000)
             return () => clearTimeout(Timer);
