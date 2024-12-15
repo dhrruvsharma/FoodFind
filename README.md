@@ -10,11 +10,11 @@ This project is a web application that displays food products fetched from the [
    - Each product displays the following key information:
      - **Product Name**
      - **Product Image**
-   - The product list supports **pagination** using either infinite scroll.
+   - The product list supports **pagination** using infinite scroll.
 
 ### 2. **Search Functionality**
    - A search bar on the homepage allows users to search for food products by name and dropdown menus for filters. 
-   - As the user types, the product list is filtered dynamically based on the search query.
+   - As the user types, new product list is fetched and debouncing is implemented on this search.
 
 ### 3. **Barcode Search**
    - A second search bar is available to search food products by their **Barcode**.
@@ -22,7 +22,6 @@ This project is a web application that displays food products fetched from the [
 
 ### 4. **Category Filter**
    - A filter dropdown or sidebar allows users to filter products by category (e.g., beverages, dairy, snacks).
-   - The list of categories is dynamically fetched from the OpenFoodFacts API.
 
 ### 5. **Sort Functionality**
    - Users can sort the displayed food products by:
