@@ -73,20 +73,17 @@ const Home = () => {
                 setLoader(false);
                 loading.current = false;
                 setInitial(true);
-                controllerRef.current = null;
             }
         }
     }
 
     useEffect(() => {
         if (query !== "") {
-            loading.current = true;
             if (page === 1) {
                 ResetHeight();
             }
             SearchQuery();
         } else {
-            loading.current = true;
             if (page === 1) {
                 ResetHeight();
             }
@@ -96,7 +93,7 @@ const Home = () => {
 
     useEffect(() => {
         const savedQuery = sessionStorage.getItem("query");
-        if (query !== "" && query !== savedQuery) {
+        if (query !== "" && query !== savedQuery && page !== 1) {
             const Timer = setTimeout(() => {
                 ResetHeight();
                 setData([]);
@@ -104,7 +101,12 @@ const Home = () => {
                 setEnd(false);
                 setInitial(false);
                 sessionStorage.setItem("query", query);
-            }, 500)
+            }, 1000)
+            return () => clearTimeout(Timer);
+        } else if (query !== "" && page === 1 && query !== savedQuery) {
+            const Timer = setTimeout(() => {
+                SearchQuery();
+            },1000)
             return () => clearTimeout(Timer);
         }
     }, [query])
@@ -183,15 +185,17 @@ const Home = () => {
                 setPage(prev => prev + 1);
             }
         }, { threshold: .5 });
+
         if (bottomRef.current) {
             observer.observe(bottomRef.current);
         }
+
         return () => {
             if (bottomRef.current) {
                 observer.unobserve(bottomRef.current);
             }
         }
-    }, [data, initial, loading.current, end])
+    }, [data,initial, loading.current, end])
 
     useEffect(() => {
         if (end) {
@@ -204,7 +208,6 @@ const Home = () => {
             <h1>An Error occured while fetching the products...</h1>
         )
     }
-
 
     return (
         <>
