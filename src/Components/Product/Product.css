@@ -26,7 +26,8 @@
 .product .product-figure img{
     grid-area: art;
     border-radius: 10px;
-    max-height: 70vh;
+    height: 100%;
+    margin-left: auto;
 }
 .title{
     grid-area: title;
