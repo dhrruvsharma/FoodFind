@@ -8,6 +8,7 @@ const Product = () => {
     const [product, setProduct] = useState({});
     const [labels, setLabels] = useState();
     const [categories, setCategories] = useState([]);
+    const [error,setEror] = useState(false);
 
     const GetProduct = async () => {
         try {
@@ -15,10 +16,11 @@ const Product = () => {
             Promise.resolve(newData);
             setProduct(newData);
             const lab = newData.labels;
-            setLabels(lab.split(','))
+            setLabels(lab?.split(','))
             setCategories(newData.categories_tags_en);
         } catch (error) {
             console.error(error);
+            setEror(true);
         }
     }
 
@@ -40,16 +42,22 @@ const Product = () => {
         })
     },[])
 
+    if (error) {
+        return (
+            <h1>Product Doesn't Exist</h1>
+        )
+    }
+
     return (
         <>
             <div className="product">
                 <div className="banner-image" style={{ backgroundImage: `url(${product?.image_url})` }}></div>
                 <figure className="product-figure">
                     <img src={product?.image_url} alt="Image doesn't exist" />
+                    <h1 className="title">Name :- {product.product_name}</h1>
                     <div className="brand">
                         <h2>Brand :- {product.brands}</h2>
                     </div>
-                    <h1 className="title">{product.product_name}</h1>
                     <div className="label">
                         <h2 style={{ margin: '0px', padding: '0px' }}>Labels</h2>
                         {labels?.map((item, index) => (
@@ -72,6 +80,7 @@ const Product = () => {
                 <div className="ingredients">
                     <h1>Ingredients Used</h1>
                     <p>{product.ingredients_text}</p>
+                    <hr />
                 </div>
                 <div className="nutrients">
                     <h1>Nutrients</h1>
@@ -80,6 +89,7 @@ const Product = () => {
                     <h2>Saturated Fat :- {Capitalize(product?.nutrient_levels?.['saturated-fat']) || "N/A"}</h2>
                     <h2>Sugars :- {Capitalize(product?.nutrient_levels?.sugars) || "N/A"}</h2>
                     <h2>Nutrition Grade :- {product?.nutrition_grades?.toUpperCase() || "N/A"}</h2>
+                    <hr />
                 </div>
                 <div className="countries">
                     <h1>Countries</h1>

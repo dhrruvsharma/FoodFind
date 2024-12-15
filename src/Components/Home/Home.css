@@ -24,3 +24,23 @@
 html,body,#root{
     height: min-content;
 }
+@media (max-width: 950px) {
+    #masonry-item{
+        max-width: 15vw;
+    }
+}
+@media (max-width: 914px) {
+    #masonry-item{
+        max-width: 17vw;
+    }
+}
+@media (max-width: 765px) {
+    #masonry-item{
+        max-width: 21vw;
+    }
+}
+@media (max-width: 615px) {
+    #masonry-item{
+        max-width: 25vw;
+    }
+}

@@ -26,7 +26,6 @@
 .product .product-figure img{
     grid-area: art;
     border-radius: 10px;
-    /* width: 100%; */
     max-height: 70vh;
 }
 .title{
@@ -50,5 +49,20 @@
     margin-left: 4vw;
     h1{
         text-decoration: underline;
+    }
+}
+@media (max-width: 550px) {
+    h2{
+        font-size: 1.2rem;
+    }
+    h1{
+        font-size: 1.3rem;
+    }
+    .product .product-figure{
+        margin-top: -35vw;
+        img{
+            max-width: 30vw;
+            height: 100%;
+        }
     }
 }

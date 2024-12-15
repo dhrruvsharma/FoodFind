@@ -13,3 +13,40 @@
     margin-bottom: 10px;
     position: relative;
 }
+@media (max-width: 900px) {
+    .nav{
+        input,select,button{
+            font-size: 1.3rem;
+        }
+        .id-search input{
+            width: 100%; 
+        }
+    }
+}
+@media (max-width: 650px) {
+    .nav{
+        input,select,button{
+            font-size: 1.1rem;
+        }
+        input,select{
+            width: 25%;
+        }
+        .id-search input{
+            width: 100%; 
+        }
+    }
+}
+.id-search{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 2vw;
+    button{
+        height: 100%;
+        font-size: 1.5rem;
+        border-radius: 10px;
+        outline: none;
+        border: none;
+        cursor: pointer;
+    }
+}

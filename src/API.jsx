@@ -1,7 +1,7 @@
 import axios from "axios";
 const baseUrl = import.meta.env.VITE_BASE;
 const searchUrl = import.meta.env.VITE_SEARCH;
-export const Get = async (page,category) => {
+export const Get = async (page,category,sort) => {
     try {
         const response = await axios.get(`${baseUrl}/search`,
             {
@@ -9,7 +9,8 @@ export const Get = async (page,category) => {
                     'page_size': 25,
                     'fields': 'product_name,code,image_url',
                     'page': page,
-                    'categories_tags': category
+                    'categories_tags': category,
+                    'sort_by': sort
                 }
             }
         );
@@ -21,7 +22,7 @@ export const Get = async (page,category) => {
         throw new Error(error)
     }
 }
-export const Search = async (query,page,category) => {
+export const Search = async (query,page,category,sort) => {
     try{
         const response = await axios.get(`${searchUrl}`,{
             params: {
@@ -30,15 +31,16 @@ export const Search = async (query,page,category) => {
                 'fields': 'product_name,code,image_url',
                 'page':page,
                 'page_size': 25,
-                'categories_tags':category
-            }
+                'categories_tags':category,
+                'sort_by': sort
+            },
         })
         return {
             data: response.data.products,
             count: response.data.page_count
         };
     } catch (error) {
-        throw new Error(error);
+            throw new Error(error);
     }
 }
 

@@ -6,17 +6,14 @@ import Nav from "../Nav/Nav";
 import Loader from "../Loader/Loader";
 import { Get, Search } from "../../API";
 const Home = () => {
-    const { data, setData } = useDataContext();
+    const { data, setData, page, setPage, query, setQuery, end, setEnd, category, sort } = useDataContext();
     const containerRef = useRef();
     const { initial, setInitial } = useDataContext();
     const loading = useRef(false);
     const bottomRef = useRef(null);
     const [loader, setLoader] = useState(false);
-    const { page, setPage } = useDataContext();
-    const { query, setQuery } = useDataContext();
     const [loaded, setLoaded] = useState(0);
-    const { end, setEnd } = useDataContext();
-    const { category } = useDataContext();
+    const [error, setError] = useState(false);
 
     const GetData = async () => {
         if (data.length / 25 >= page) {
@@ -25,14 +22,14 @@ const Home = () => {
         setLoader(true);
         loading.current = true;
         try {
-            const newData = await Get(page, category);
+            const newData = await Get(page, category, sort);
             Promise.resolve(newData);
             setData(prev => [...prev, ...newData.data]);
             if (newData.count < 25) {
                 setEnd(true);
             }
         } catch (error) {
-            console.error(error);
+            setError(true);
         } finally {
             setLoader(false);
             setInitial(true);
@@ -41,35 +38,58 @@ const Home = () => {
         }
     }
 
+    const ResetHeight = () => {
+        const container = containerRef.current
+        container.style.height = '20px';
+    }
+
+    useEffect(() => {
+        const SavedSort = sessionStorage.getItem("sort");
+        if (initial && sort !== SavedSort && sort !== undefined) {
+            ResetHeight();
+            setData([]);
+            setPage(1);
+            sessionStorage.removeItem("sort");
+            sessionStorage.setItem("sort", sort);
+        }
+    }, [sort])
+
     const SearchQuery = async () => {
         if (query) {
             setLoader(true);
             loading.current = true;
             try {
-                const newData = await Search(query, page, category);
+                const newData = await Search(query, page, category, sort);
                 Promise.resolve(newData);
-                setData(prev => [...prev, ...newData.data]);
-                if (newData.count < 25) {
-                    setEnd(true);
+                if (newData?.data) {
+                    setData(prev => [...prev, ...newData?.data]);
+                    if (newData?.count < 25) {
+                        setEnd(true);
+                    }
                 }
             } catch (error) {
-                console.error(error);
+                setError(true);
             } finally {
                 setLoader(false);
                 loading.current = false;
                 setInitial(true);
+                controllerRef.current = null;
             }
         }
     }
 
     useEffect(() => {
-        if (page === 1) {
-            const container = containerRef.current;
-            container.style.height = '20px';
-        }
         if (query !== "") {
+            loading.current = true;
+            if (page === 1) {
+                ResetHeight();
+            }
             SearchQuery();
         } else {
+            loading.current = true;
+            if (page === 1) {
+                ResetHeight();
+            }
             GetData();
         }
     }, [page])
@@ -78,12 +98,13 @@ const Home = () => {
         const savedQuery = sessionStorage.getItem("query");
         if (query !== "" && query !== savedQuery) {
             const Timer = setTimeout(() => {
+                ResetHeight();
                 setData([]);
                 setPage(1);
                 setEnd(false);
                 setInitial(false);
-                sessionStorage.setItem("query",query);
-            }, 1000)
+                sessionStorage.setItem("query", query);
+            }, 500)
             return () => clearTimeout(Timer);
         }
     }, [query])
@@ -91,10 +112,11 @@ const Home = () => {
     useEffect(() => {
         const savedCategory = sessionStorage.getItem?.("category");
         if (initial && category !== savedCategory && category !== undefined) {
+            ResetHeight();
             setData([]);
             setPage(1);
             setEnd(false);
-            sessionStorage.setItem("category",category);
+            sessionStorage.setItem("category", category);
         }
     }, [category])
 
@@ -107,13 +129,13 @@ const Home = () => {
             })
             sessionStorage.removeItem("pos");
         }
-    },[])
+    }, [])
 
     useEffect(() => {
-        window.addEventListener("beforeunload",() => {
+        window.addEventListener("beforeunload", () => {
             sessionStorage.clear();
         })
-    },[])
+    }, [])
 
     const Masonry = () => {
         const gap = 5;
@@ -123,8 +145,8 @@ const Home = () => {
         let columnCount = Math.floor(containerWidth / 150);
         if (columnCount > 6) {
             columnCount = 6;
-        } else if (columnCount < 4) {
-            columnCount = 4;
+        } else if (columnCount < 3) {
+            columnCount = 3;
         }
         const columnWidth = (containerWidth - (gap * (columnCount - 1))) / columnCount;
         const columnHeights = Array(columnCount).fill(0);
@@ -171,11 +193,23 @@ const Home = () => {
         }
     }, [data, initial, loading.current, end])
 
+    useEffect(() => {
+        if (end) {
+            setLoader(false);
+        }
+    }, [end])
+
+    if (error) {
+        return (
+            <h1>An Error occured while fetching the products...</h1>
+        )
+    }
+
 
     return (
         <>
             <Nav setQuery={setQuery} />
-            <div className="masonry" ref={containerRef} >
+            <div className="masonry" ref={containerRef} style={{marginTop: "30px"}}>
                 {data?.map((item, index) => (
                     <Card name={item.product_name} image={item.image_url} key={index} onLoad={() => setLoaded(prev => prev + 1)} onError={() => setLoaded(prev => prev + 1)} id={item.code} />
                 ))}
