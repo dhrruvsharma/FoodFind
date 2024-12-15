@@ -10,7 +10,7 @@
             width: 100%;
         }
     }
-    max-width: 12vw;
+    width: 14vw;
     padding: 1vw;   
     text-wrap: wrap; 
     background-color: whitesmoke;
@@ -26,21 +26,21 @@ html,body,#root{
 }
 @media (max-width: 950px) {
     #masonry-item{
-        max-width: 15vw;
+        width: 14vw;
     }
 }
 @media (max-width: 914px) {
     #masonry-item{
-        max-width: 17vw;
+        width: 17vw;
     }
 }
 @media (max-width: 765px) {
     #masonry-item{
-        max-width: 21vw;
+        width: 22vw;
     }
 }
 @media (max-width: 615px) {
     #masonry-item{
-        max-width: 25vw;
+        width: 29vw;
     }
 }

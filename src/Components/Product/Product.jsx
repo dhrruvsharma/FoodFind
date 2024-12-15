@@ -8,7 +8,7 @@ const Product = () => {
     const [product, setProduct] = useState({});
     const [labels, setLabels] = useState();
     const [categories, setCategories] = useState([]);
-    const [error,setEror] = useState(false);
+    const [error, setEror] = useState(false);
 
     const GetProduct = async () => {
         try {
@@ -40,7 +40,7 @@ const Product = () => {
             top: 0,
             behavior: 'smooth'
         })
-    },[])
+    }, [])
 
     if (error) {
         return (
@@ -62,7 +62,7 @@ const Product = () => {
                         <h2 style={{ margin: '0px', padding: '0px' }}>Labels</h2>
                         {labels?.map((item, index) => (
                             <span key={index}>
-                                {item}{index !== labels.length-1 && (
+                                {item}{index !== labels.length - 1 && (
                                     <>,&nbsp;</>
                                 )}
                             </span>
@@ -93,11 +93,11 @@ const Product = () => {
                 </div>
                 <div className="countries">
                     <h1>Countries</h1>
-                    {product?.countries_tags_en?.map((item,index) => (
-                        <span key={index}>{item}{index !== product?.countries_tags_en.length - 1 && (
-                            <span>,&nbsp;</span>
-                        )}</span>
-                    ))}
+                    <p>
+                        {product?.countries_tags_en?.map((item, index) => (
+                            <pre key={index}>{item}{index !== product.countries_tags_en.length - 1 && (<span>&nbsp;</span>)}</pre>
+                        ))}
+                    </p>
                 </div>
             </div>
         </>
